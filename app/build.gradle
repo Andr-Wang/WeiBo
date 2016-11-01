@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
     defaultConfig {
         applicationId "weibo.wangtao.weibo"
-        minSdkVersion 14
+        minSdkVersion 18
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -34,6 +34,9 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:23.4.0'
+    compile project(':weiboSDK')
+    compile project(':library_Slidingmenu')
+    compile 'com.zhy:percent-support-extends:1.0.1'
+    compile 'com.android.support:recyclerview-v7:23.1.0'
     testCompile 'junit:junit:4.12'
-    compile files('libs/weiboSDKCore_3.1.4.jar')
 }

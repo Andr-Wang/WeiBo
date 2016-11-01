@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':library_Slidingmenu'
 include ':weiboSDK'

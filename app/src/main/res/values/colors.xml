@@ -3,4 +3,18 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="primary_blue">#ff01a1eb</color>
+    <color name="white">#e2e2e2</color>
+    <color name="login_background">#c1dadada</color>
+    <color name="login_textcolor">#b63e3e3e</color>
+    <color name="MainActivity_Sliding_background">#5e0800ff</color>
+    <color name="slidingmenu_left_menu_pressde">#6e000000</color>
+    <color name="slidingmenu_left_menu_normal">#00000000</color>
+    <color name="slidingmenu_left_menu_blank">#b6d2efff</color>
+    <color name="slidingmenu_left_background">#f340e6f9</color>
+    <color name="slidingmenu_left_menu_screen_neme">#c3000000</color>
+    <color name="slidingmenu_left_menu_description">#ef414141</color>
+    <color name="match_fragment_title">#ae3abdff</color>
+    <color name="equip_list_color">#00ffffff</color>
 </resources>

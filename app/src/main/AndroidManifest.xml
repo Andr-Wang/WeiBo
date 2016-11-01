@@ -23,16 +23,7 @@
             android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"></activity>
-        <activity android:name=".Activity.OAuthActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.VIEW"/> -->
-            <!-- <category android:name="android.intent.category.DEFAULT"/> -->
-            <!-- <category android:name="android.intent.category.BROWSABLE"/> -->
-            <!-- <data android:scheme="wangtao" android:host="OAuthActivity"/> -->
-            <!-- </intent-filter> -->
-        </activity>
+            android:windowSoftInputMode="adjustResize" />
 
         <meta-data
             android:name="WEIBO_APPKEY"
@@ -44,6 +35,12 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".Activity.MainActivity"  android:theme="@style/NoActionBarTheme">
+
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.VIEW"/>-->
+            <!--</intent-filter>-->
         </activity>
     </application>
 

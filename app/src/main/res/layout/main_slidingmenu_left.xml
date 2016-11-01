@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.android.percent.support.PercentLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/left_sliding"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/slidingmenu_left_background">
+
+    <com.zhy.android.percent.support.PercentRelativeLayout
+        android:id="@+id/left_menu_top"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_widthPercent="100%w"
+        app:layout_heightPercent="30%h"
+
+        >
+
+        <ImageView
+            android:id="@+id/userphoto"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="30%h"
+            app:layout_heightPercent="30%h"
+            android:background="@drawable/circle_user_photo"
+            android:scaleType="centerInside"
+
+
+            android:layout_centerHorizontal="true"
+            app:layout_marginTopPercent="20%h"/>
+        <TextView
+            android:id="@+id/screen_name"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="50%h"
+            app:layout_heightPercent="15%h"
+            app:layout_marginTopPercent="5%h"
+            android:text="昵称"
+            app:layout_textSizePercent="5%w"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/userphoto"
+            android:gravity="center"
+            android:textColor="@color/slidingmenu_left_menu_screen_neme"
+
+            />
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="50%h"
+            app:layout_heightPercent="15%h"
+            app:layout_marginTopPercent="5%h"
+            android:text="昵称"
+            app:layout_textSizePercent="3%w"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/screen_name"
+            android:gravity="center"
+            android:textColor="@color/slidingmenu_left_menu_description"
+
+            />
+
+    </com.zhy.android.percent.support.PercentRelativeLayout>
+
+    <com.zhy.android.percent.support.PercentRelativeLayout
+
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_widthPercent="100%w"
+        app:layout_heightPercent="50%h"
+        >
+
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="90%w"
+            app:layout_heightPercent="20%h"
+            android:layout_centerHorizontal="true"
+            >
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_widthPercent="80%h"
+                app:layout_heightPercent="80%h"
+                app:layout_marginLeftPercent="15%w"
+                android:background="@drawable/street"
+                android:layout_gravity="center_vertical"
+                android:scaleType="fitXY"
+                />
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:layout_heightPercent="80%h"
+                app:layout_marginLeftPercent="10%w"
+                android:layout_gravity="center_vertical"
+                android:text="1111111"
+                android:textColor="@color/slidingmenu_left_menu_screen_neme"
+                android:gravity="center_vertical"
+                app:layout_textSizePercent="45%h"
+                />
+        </com.zhy.android.percent.support.PercentLinearLayout>
+
+    </com.zhy.android.percent.support.PercentRelativeLayout>
+
+
+
+
+
+</com.zhy.android.percent.support.PercentLinearLayout>
+
+
+
