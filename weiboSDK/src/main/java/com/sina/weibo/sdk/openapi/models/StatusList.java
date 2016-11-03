@@ -23,7 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.text.TextUtils;
-
+import android.util.Log;
 /**
  * 微博列表结构。
  * @see <a href="http://t.cn/zjM1a2W">常见返回对象数据结构</a>
@@ -58,6 +58,7 @@ public class StatusList {
             JSONArray jsonArray      = jsonObject.optJSONArray("statuses");
             if (jsonArray != null && jsonArray.length() > 0) {
                 int length = jsonArray.length();
+                Log.i("StatusList","------------------------------"+jsonArray.length());
                 statuses.statusList = new ArrayList<Status>(length);
                 for (int ix = 0; ix < length; ix++) {
                     statuses.statusList.add(Status.parse(jsonArray.getJSONObject(ix)));

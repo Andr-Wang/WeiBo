@@ -95,6 +95,8 @@ public class User {
     public int bi_followers_count;
     /** 用户当前的语言版本，zh-cn：简体中文，zh-tw：繁体中文，en：英语 */
     public String lang;
+    /** 封面 */
+    public String cover_image_phone;
     
     /** 注意：以下字段暂时不清楚具体含义，OpenAPI 说明文档暂时没有同步更新对应字段 */
     public String star;
@@ -153,6 +155,7 @@ public class User {
         user.online_status      = jsonObject.optInt("online_status", 0);
         user.bi_followers_count = jsonObject.optInt("bi_followers_count", 0);
         user.lang               = jsonObject.optString("lang", "");
+        user.cover_image_phone  =jsonObject.optString("cover_image_phone", "");
         
         // 注意：以下字段暂时不清楚具体含义，OpenAPI 说明文档暂时没有同步更新对应字段含义
         user.star               = jsonObject.optString("star", "");

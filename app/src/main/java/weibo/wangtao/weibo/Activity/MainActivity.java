@@ -1,18 +1,22 @@
 package weibo.wangtao.weibo.Activity;
 
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.media.Image;
 import android.os.Bundle;
 
-import android.support.v7.app.AppCompatActivity;
+
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -21,23 +25,33 @@ import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.UsersAPI;
+import com.sina.weibo.sdk.openapi.legacy.StatusesAPI;
 import com.sina.weibo.sdk.openapi.models.ErrorInfo;
+import com.sina.weibo.sdk.openapi.models.Status;
+import com.sina.weibo.sdk.openapi.models.StatusList;
 import com.sina.weibo.sdk.openapi.models.User;
-
-import java.util.ArrayList;
-import java.util.HashMap;
+import com.squareup.picasso.Picasso;
 
 import weibo.wangtao.weibo.Bean.AccessTokenKeeper;
+import weibo.wangtao.weibo.Fragment.LeftMenuFragment;
+import weibo.wangtao.weibo.Fragment.PublicTimelineFragment;
+import weibo.wangtao.weibo.Loader.UserInfoLoader;
 import weibo.wangtao.weibo.R;
+import weibo.wangtao.weibo.Tools.CircleTransform;
 import weibo.wangtao.weibo.Tools.Constants;
+
+import static weibo.wangtao.weibo.Tools.Constants.APP_KEY;
 
 
 public class MainActivity extends SlidingFragmentActivity {
 
     private Oauth2AccessToken mAccessToken;
     private SlidingMenu sm;
-
-
+    private LoaderManager mLoaderManager;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private LeftMenuFragment mLeftMenu = new LeftMenuFragment();/** 左边菜单 */
+    private FragmentManager fm;
+    private PublicTimelineFragment publicTimelineFragment;
 
 
     @Override
@@ -47,9 +61,19 @@ public class MainActivity extends SlidingFragmentActivity {
 
         initSlidingMenu(savedInstanceState);
 
+        setDefaultFragment();
 
     }
 
+    private void setDefaultFragment()
+    {
+        fm = getFragmentManager();
+        publicTimelineFragment= new PublicTimelineFragment();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.add(R.id.main_content,publicTimelineFragment);
+
+        transaction.show(publicTimelineFragment).commit();
+    }
 
 
 
@@ -58,11 +82,11 @@ public class MainActivity extends SlidingFragmentActivity {
     private void initSlidingMenu(Bundle savedInstanceState)//侧滑菜单初始化
     {
         sm = getSlidingMenu();
-        setBehindContentView(getLeftMenu());
+        setBehindContentView(R.layout.layout_leftmenu_content);
 
-//        if (savedInstanceState == null) {
-//            getSupportFragmentManager().beginTransaction().replace(R.id.left_sliding, mLeftMenu, "Left").commit();
-//        }
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.left_sliding, mLeftMenu, "Left").commit();
+        }
 
         sm.setShadowDrawable(R.drawable.gray2); // 设置阴影图片
         sm.setShadowWidthRes(R.dimen.slidingmenu_offset2); // 设置阴影图片的宽度
@@ -71,59 +95,22 @@ public class MainActivity extends SlidingFragmentActivity {
         sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN); // 设置滑动的屏幕范围，该设置为全屏区域都可以滑动
         sm.setMode(SlidingMenu.LEFT); // 设置菜单只有左菜单
 
-
-    }
-
-    private View getLeftMenu() //取得动态布局
-    {
-        //从主布局文件绑定的Activity调用另一个布局文件必须调用LayoutInflater
-        LayoutInflater inflater = getLayoutInflater();
-        //得到menu的View
-        View v = inflater.inflate(R.layout.main_slidingmenu_left, null);
-        //equip_list = (ListView)v.findViewById(R.id.equi_list);
-
-
-
-
-        return v;
     }
 
 
 
 
-    private void initUser()//加载用户信息
+
+
+
+
+
+
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState)//fragment随MyActivity一起销毁,incase of null
     {
-        mAccessToken = AccessTokenKeeper.readAccessToken(this);// 从 SharedPreferences 中读取上次已保存好 AccessToken 等信息
-        UsersAPI usersAPI = new UsersAPI(this, Constants.APP_KEY, mAccessToken);
-        long uid = Long.parseLong(mAccessToken.getUid());
-        usersAPI.show(uid, mListener);
+
     }
-
-    private RequestListener mListener = new RequestListener() //回调监听
-    {
-        @Override
-        public void onComplete(String response) {
-            if (!TextUtils.isEmpty(response)) {
-                Log.i("用户资料", response);
-                // 调用 User#parse 将JSON串解析成User对象
-                User user = User.parse(response);
-                if (user != null) {
-                    Toast.makeText(MainActivity.this,
-                            "获取User信息成功，用户昵称：" + user.screen_name,
-                            Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(MainActivity.this, response, Toast.LENGTH_LONG).show();
-                }
-            }
-        }
-
-        @Override
-        public void onWeiboException(WeiboException e) {
-            Log.e("用户资料", e.getMessage());
-            ErrorInfo info = ErrorInfo.parse(e.getMessage());
-            Toast.makeText(MainActivity.this, info.toString(), Toast.LENGTH_LONG).show();
-        }
-    };
-
-
 }

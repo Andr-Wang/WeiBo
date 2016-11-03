@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.android.percent.support.PercentLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_widthPercent="100%w"
+        android:orientation="horizontal"
+        >
+        <ImageView
+            android:id="@+id/user_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_widthPercent="15%w"
+            app:layout_heightPercent="15%w"
+            app:layout_marginPercent="5%w"
+            />
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="65%w"
+            app:layout_heightPercent="15%w"
+            app:layout_marginPercent="5%w"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:id="@+id/userid"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_heightPercent="45%h"
+                app:layout_marginPercent="5%h"
+                android:gravity="left"
+                android:textColor="@color/weibo_userid"
+
+                />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_heightPercent="35%h"
+                app:layout_marginPercent="5%h"
+                android:gravity="left"
+                android:textColor="@color/weibo_date"
+          
+                />
+        </com.zhy.android.percent.support.PercentLinearLayout>
+
+
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_widthPercent="100%w"
+
+        >
+        <TextView
+            android:id="@+id/comment_text"
+            android:layout_width="0dp"
+            app:layout_widthPercent="96%w"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textColor="@color/weibo_userid"
+
+            app:layout_marginLeftPercent="2%w"
+            app:layout_marginRightPercent="2%w"/>
+
+    </com.zhy.android.percent.support.PercentLinearLayout>
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+       <TextView
+           android:id="@+id/weibo_content"
+           android:padding="10dp"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content" />
+
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:id="@+id/weibo_image_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+        </com.zhy.android.percent.support.PercentLinearLayout>
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+</com.zhy.android.percent.support.PercentLinearLayout>

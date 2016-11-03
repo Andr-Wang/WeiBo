@@ -39,4 +39,5 @@ dependencies {
     compile 'com.zhy:percent-support-extends:1.0.1'
     compile 'com.android.support:recyclerview-v7:23.1.0'
     testCompile 'junit:junit:4.12'
+    compile files('libs/picasso-2.4.0.jar')
 }

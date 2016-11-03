@@ -2,7 +2,7 @@
 <com.zhy.android.percent.support.PercentLinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/left_sliding"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -18,15 +18,21 @@
         >
 
         <ImageView
+            android:id="@+id/cover"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="100%w"
+            app:layout_heightPercent="100%h"
+
+
+            />
+        <ImageView
             android:id="@+id/userphoto"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_widthPercent="30%h"
             app:layout_heightPercent="30%h"
-            android:background="@drawable/circle_user_photo"
             android:scaleType="centerInside"
-
-
             android:layout_centerHorizontal="true"
             app:layout_marginTopPercent="20%h"/>
         <TextView
@@ -51,7 +57,7 @@
             app:layout_widthPercent="50%h"
             app:layout_heightPercent="15%h"
             app:layout_marginTopPercent="5%h"
-            android:text="昵称"
+            android:text="签名"
             app:layout_textSizePercent="3%w"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/screen_name"
@@ -71,11 +77,13 @@
         >
 
         <com.zhy.android.percent.support.PercentLinearLayout
+            android:id="@+id/public_timeline"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_widthPercent="90%w"
             app:layout_heightPercent="20%h"
             android:layout_centerHorizontal="true"
+
             >
             <ImageView
                 android:layout_width="0dp"
@@ -94,11 +102,13 @@
                 app:layout_heightPercent="80%h"
                 app:layout_marginLeftPercent="10%w"
                 android:layout_gravity="center_vertical"
-                android:text="1111111"
+                android:text="@string/sliding_left_public_timeline"
                 android:textColor="@color/slidingmenu_left_menu_screen_neme"
                 android:gravity="center_vertical"
                 app:layout_textSizePercent="45%h"
+
                 />
+
         </com.zhy.android.percent.support.PercentLinearLayout>
 
     </com.zhy.android.percent.support.PercentRelativeLayout>

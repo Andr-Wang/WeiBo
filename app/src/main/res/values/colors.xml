@@ -12,9 +12,20 @@
     <color name="slidingmenu_left_menu_pressde">#6e000000</color>
     <color name="slidingmenu_left_menu_normal">#00000000</color>
     <color name="slidingmenu_left_menu_blank">#b6d2efff</color>
-    <color name="slidingmenu_left_background">#f340e6f9</color>
+    <color name="slidingmenu_left_background">#eeededed</color>
     <color name="slidingmenu_left_menu_screen_neme">#c3000000</color>
     <color name="slidingmenu_left_menu_description">#ef414141</color>
     <color name="match_fragment_title">#ae3abdff</color>
     <color name="equip_list_color">#00ffffff</color>
+
+    <color name="slidingmenu_left_public_timeline_pressed">#41cbcbcb</color>
+    <color name="slidingmenu_left_public_timeline_normal">#00cbcbcb</color>
+
+    <color name="swipe_color_1">#ff0000ff</color>
+    <color name="swipe_color_2">#ff3232ff</color>
+    <color name="swipe_color_3">#ff6464ff</color>
+    <color name="swipe_color_4">#ff9696ff</color>
+    <color name="weibo_userid">#000000</color>
+    <color name="weibo_date">#898989</color>
+
 </resources>

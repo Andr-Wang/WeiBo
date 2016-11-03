@@ -7,18 +7,16 @@
 
     tools:context="weibo.wangtao.weibo.Activity.MainActivity">
 
-    <include layout="@layout/toolbar"/>
+    <include layout="@layout/toolbar"
+        android:id="@+id/include" />
 
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/refresh"
+    <FrameLayout
+        android:id="@+id/main_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/include">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/listview"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"/>
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </FrameLayout>
 
 </RelativeLayout>
