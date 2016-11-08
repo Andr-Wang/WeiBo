@@ -190,14 +190,14 @@ public class PublicTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
                 if(statusList.get(position).bmiddle_pic!="")
                 {
-//                    Picasso
-//                            .with(context)
-//                            .load(statusList.get(position).bmiddle_pic)
-//                            .resize(600,600)
-//                            .centerCrop()
-//                            .skipMemoryCache()
-//                            .config(Bitmap.Config.RGB_565)
-//                            .into(viewHolder.weibo_image);
+                    Picasso
+                            .with(context)
+                            .load(statusList.get(position).bmiddle_pic)
+                            .resize(600,600)
+                            .centerCrop()
+                            .skipMemoryCache()
+                            .config(Bitmap.Config.RGB_565)
+                            .into(viewHolder.weibo_image);
 
                     viewHolder.weibo_image.setMaxWidth(600);
                     viewHolder.weibo_image.setMaxHeight(600);
