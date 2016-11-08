@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.android.percent.support.PercentLinearLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -19,6 +18,9 @@
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             />
-
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
     </android.support.v4.widget.SwipeRefreshLayout>
-</com.zhy.android.percent.support.PercentLinearLayout>
+
+</LinearLayout>

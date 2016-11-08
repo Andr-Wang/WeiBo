@@ -1,9 +1,10 @@
 package weibo.wangtao.weibo.Fragment;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,11 +22,14 @@ import com.sina.weibo.sdk.openapi.UsersAPI;
 import com.sina.weibo.sdk.openapi.models.ErrorInfo;
 import com.sina.weibo.sdk.openapi.models.User;
 import com.squareup.picasso.Picasso;
+
+import weibo.wangtao.weibo.Activity.MainActivity;
 import weibo.wangtao.weibo.Bean.AccessTokenKeeper;
 import weibo.wangtao.weibo.R;
 import weibo.wangtao.weibo.Tools.CircleTransform;
 
 import static weibo.wangtao.weibo.Tools.Constants.APP_KEY;
+
 
 /**
  * Created by wangtao on 2016/11/3.
@@ -33,19 +37,20 @@ import static weibo.wangtao.weibo.Tools.Constants.APP_KEY;
 
 public class LeftMenuFragment extends Fragment {
 
-    private View public_timeline;
+    private View public_timeline,friend_timeline;
     private TextView screen_name, description;
     private ImageView userphoto, cover;
     private Oauth2AccessToken mAccessToken;
+    private FragmentManager fm;
 
-
+    public interface fragment_ChangeClickListener
+    {
+        void fragment_Change(String fm);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        initUser_Info();
-
 
     }
 
@@ -64,6 +69,8 @@ public class LeftMenuFragment extends Fragment {
         userphoto = (ImageView) view.findViewById(R.id.userphoto);
         cover = (ImageView) view.findViewById(R.id.cover);
         public_timeline=view.findViewById(R.id.public_timeline);
+        friend_timeline=view.findViewById(R.id.friend_timeline);
+        initUser_Info();
         initListener();
         return view;
     }
@@ -84,11 +91,17 @@ public class LeftMenuFragment extends Fragment {
                         .load(user.avatar_large)
                         .transform(new CircleTransform())
                         .fit()
+                        .centerCrop()
+                        .config(Bitmap.Config.ALPHA_8)
+                        .skipMemoryCache()
                         .into(userphoto);
                 Picasso
                         .with(getActivity())
                         .load(user.cover_image_phone)
                         .fit()
+                        .centerCrop()
+                        .config(Bitmap.Config.RGB_565)
+                        .skipMemoryCache()
                         .into(cover);
                 userphoto.bringToFront();
 
@@ -102,10 +115,11 @@ public class LeftMenuFragment extends Fragment {
         }
 
     };
+
     private void initListener()
     {
-        public_timeline.setOnTouchListener(new View.OnTouchListener() {
 
+        public_timeline.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
@@ -113,7 +127,27 @@ public class LeftMenuFragment extends Fragment {
                     v.setBackgroundResource(R.drawable.sliding_left_public_timeline_pressed);
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     v.setBackgroundResource(R.drawable.sliding_left_public_timeline_normal);
+                    if(getActivity() instanceof fragment_ChangeClickListener)
+                    {
+                        ((fragment_ChangeClickListener)getActivity()).fragment_Change("public");
 
+                    }
+                }
+                return true;
+            }
+        });
+        friend_timeline.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    v.setBackgroundResource(R.drawable.sliding_left_public_timeline_pressed);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    v.setBackgroundResource(R.drawable.sliding_left_public_timeline_normal);
+                    if(getActivity() instanceof fragment_ChangeClickListener)
+                    {
+                        ((fragment_ChangeClickListener)getActivity()).fragment_Change("friend");
+                    }
                 }
                 return true;
             }

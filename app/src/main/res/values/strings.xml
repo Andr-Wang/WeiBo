@@ -6,5 +6,9 @@
     <string name="weibosdk_demo_token_has_existed">Token 仍在有效期内，无需再次登录。</string>
     <string name="weibosdk_demo_toast_obtain_code_failed">获取 Code 失败</string>
     <string name="sliding_left_public_timeline">公共微博</string>
+    <string name="sliding_left_friend_timeline">朋友微博</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

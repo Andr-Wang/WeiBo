@@ -1,14 +1,19 @@
 package weibo.wangtao.weibo.Adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.media.Image;
 import android.provider.ContactsContract;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.sina.weibo.sdk.openapi.models.Status;
@@ -25,102 +30,227 @@ import android.util.Log;
  * Created by wangtao on 2016/11/3.
  */
 
-public class PublicTimelineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
-{
-    private Context context;
+public class PublicTimelineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private final Context context;
     private ArrayList<Status> statusList;
-    private User user=new User();
+    private User user = new User();
+    private static final int VIEW_PROG = 1;//progressbar flag
 
-    public PublicTimelineAdapter()
-    {
+    private OnLoadMoreListener onLoadMoreListener;
+    private boolean loading=false;
+    private int lastVisibleItem, totalItemCount;
+
+
+
+    public PublicTimelineAdapter(Context context, RecyclerView recyclerView){
         super();
-    }
-    public void set(Context context, ArrayList<Status> statusList) {
+        this.context = context;
+        if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
 
-        this.context=context;
-        this.statusList=statusList;
+            final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+                    totalItemCount = linearLayoutManager.getItemCount();
+                    lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+                    if (!loading && totalItemCount <= (lastVisibleItem + 1)) {
+                        // end has been reached
+                        // do something
+                        if (onLoadMoreListener != null) {
+                            onLoadMoreListener.onLoadMore();
+                        }
+                    }
+                }
+            });
+
+        }
+    }
+
+
+    public void add_Statues(ArrayList<Status> statusList,int Total_Number,int page_Count) {
+        try {
+            Log.e("add_Statues info---",String.valueOf(Total_Number)+"    "+String.valueOf(page_Count)+"   "+String.valueOf(this.statusList.size()+"   "+String.valueOf(statusList.size())));
+
+        } catch (NullPointerException e)
+        {
+
+        }
+        int count=0;
+        if(this.statusList!=null) count=this.statusList.size();
+        if(this.statusList==null && page_Count==1)// fresh
+        {
+            this.statusList = statusList;
+            notifyDataSetChanged();
+            if(Total_Number>50)
+            {
+                this.statusList.add(null);
+                Log.e("fresh",String.valueOf(this.statusList.size()));
+            }
+        }else if(page_Count>1 && count<Total_Number)//add
+        {
+            Log.e("add_Statues",String.valueOf(page_Count));
+
+            if(this.statusList.get(this.statusList.size()-1)==null)
+            {
+                this.statusList.remove(this.statusList.size()-1);
+
+                for(int i=0;i<statusList.size();i++)
+                {
+                    if(statusList.get(i)==null)   Log.e("add_Statues=Null",String.valueOf(i));
+                    this.statusList.add(statusList.get(i));
+                }
+                notifyDataSetChanged();
+                if (statusList.size()==50) this.statusList.add(null);
+            }else
+            {
+                Log.e("remove_Null","last one is none-null!!!!!!!");
+            }
+            Log.e("add",String.valueOf(this.statusList.size()));
+        }
+
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
-    {
-        MyViewHolder holder = new MyViewHolder(LayoutInflater.from(
-                context).inflate(R.layout.public_timeline_item, parent,
-                false));
-        return holder;
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == VIEW_PROG) {
+            return new ProgressViewHolder(LayoutInflater.from(
+                    context).inflate(R.layout.progressbar_item, parent, false));
+        } else {
+            ItemHolder holder = new ItemHolder(LayoutInflater.from(
+                    context).inflate(R.layout.public_timeline_item, parent,
+                    false));
+            return holder;
+        }
+
     }
 
-     public static class MyViewHolder extends RecyclerView.ViewHolder
+    public void clear_List()
     {
-
-        private TextView userid,date,comment_text,weibo_content;
-        private ImageView user_image;
-         MyViewHolder(View view)
+        if(statusList!=null)
         {
+            this.statusList=null;
+
+        }
+
+    }
+
+    public static class ItemHolder extends RecyclerView.ViewHolder {
+        private TextView userid, date, weibo_content,weibo_image_count;
+        private ImageView user_image,weibo_image;
+        private TextView reposts_btn, comments_btn, attitudes_btn;
+
+        ItemHolder(View view) {
             super(view);
             userid = (TextView) view.findViewById(R.id.userid);
             date = (TextView) view.findViewById(R.id.date);
-            comment_text = (TextView) view.findViewById(R.id.comment_text);
+           // comment_text = (TextView) view.findViewById(R.id.comment_text);
             weibo_content = (TextView) view.findViewById(R.id.weibo_content);
-            user_image=(ImageView)view.findViewById(R.id.user_image);
+            user_image = (ImageView) view.findViewById(R.id.user_image);
+            weibo_image=(ImageView)view.findViewById(R.id.weibo_image);
+            reposts_btn = (TextView) view.findViewById(R.id.reposts_txv);
+            comments_btn = (TextView) view.findViewById(R.id.comments_txv);
+            attitudes_btn = (TextView) view.findViewById(R.id.attitudes_txv);
+            weibo_image_count=(TextView)view.findViewById(R.id.weibo_image_count);
         }
+    }
 
-        public TextView getUserid() {
-            return userid;
+    public class ProgressViewHolder extends RecyclerView.ViewHolder {
+        public ProgressBar progressBar;
+        public TextView textView;
+
+        public ProgressViewHolder(View itemView) {
+            super(itemView);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.progressBar1);
+            textView = (TextView) itemView.findViewById(R.id.textView5);
         }
+    }
 
 
+    public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
+        this.onLoadMoreListener = onLoadMoreListener;
+    }
 
-        public ImageView getUser_image() {
-            return user_image;
-        }
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof ItemHolder && !loading) {
+            ItemHolder viewHolder = (ItemHolder) holder;
+            try
+            {
+                user = statusList.get(position).user;
+                Picasso
+                        .with(context)
+                        .load(user.avatar_hd)
+                        .resize(60,60)
+                        .centerCrop()
+                        .config(Bitmap.Config.RGB_565)
+                        .skipMemoryCache()
+                        .into(viewHolder.user_image);
 
 
-        public TextView getWeibo_content() {
-            return weibo_content;
-        }
+                if(statusList.get(position).bmiddle_pic!="")
+                {
+//                    Picasso
+//                            .with(context)
+//                            .load(statusList.get(position).bmiddle_pic)
+//                            .resize(600,600)
+//                            .centerCrop()
+//                            .skipMemoryCache()
+//                            .config(Bitmap.Config.RGB_565)
+//                            .into(viewHolder.weibo_image);
 
+                    viewHolder.weibo_image.setMaxWidth(600);
+                    viewHolder.weibo_image.setMaxHeight(600);
+                    //viewHolder.weibo_image_count.setText(statusList.get(position).pic_urls.size());
+                }
 
-        public TextView getcomment_text() {
-            return comment_text;
-        }
+                viewHolder.weibo_content.setText(statusList.get(position).text);
+                viewHolder.userid.setText(user.screen_name);
+                viewHolder.date.setText(statusList.get(position).created_at);
 
-        public TextView getDate() {
-            return date;
+                viewHolder.reposts_btn.setText(String.valueOf(statusList.get(position).reposts_count));
+                viewHolder.comments_btn.setText(String.valueOf(statusList.get(position).comments_count));
+                viewHolder.attitudes_btn.setText(String.valueOf(statusList.get(position).attitudes_count));
+            } catch (NullPointerException e)
+            {
+
+            }
+
+        } else if (holder instanceof ProgressViewHolder) {
+            ((ProgressViewHolder) holder).progressBar.setIndeterminate(true);
         }
 
     }
 
-
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
-    {
-        MyViewHolder viewHolder = (MyViewHolder)holder;
-        user=statusList.get(position).user;
-        Picasso
-                .with(context)
-                .load(user.avatar_hd)
-                .fit()
+    public int getItemCount() {
 
-                .into(viewHolder.getUser_image());
-        viewHolder.getWeibo_content().setText(statusList.get(position).text);
-        viewHolder.getUserid().setText(user.screen_name);
-
-        viewHolder.getDate().setText(statusList.get(position).created_at);
-
-    }
-
-    @Override
-    public int getItemCount()
-    {
-
-        if(statusList==null)
-        {
-           // Log.i("getItemCount","------------------------------");
+        if (statusList == null) {
+            // Log.i("getItemCount","------------------------------");
             return 0;
         }
-       // Log.i("getItemCount","------------------------------"+statusList.size());
+        // Log.i("getItemCount","------------------------------"+statusList.size());
         return statusList.size();
     }
 
+    public void setLoading() {
+        loading = true;
+    }
+
+    public void setLoaded() {
+        loading = false;
+    }
+
+
+
+
+
+
+
+
+    @Override
+    public int getItemViewType(int position) {
+        if (statusList.get(position) == null )  return VIEW_PROG;
+          return 0;
+    }
 }

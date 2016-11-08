@@ -23,6 +23,7 @@
             android:layout_height="0dp"
             app:layout_widthPercent="100%w"
             app:layout_heightPercent="100%h"
+            android:scaleType="fitCenter"
 
 
             />
@@ -32,7 +33,7 @@
             android:layout_height="0dp"
             app:layout_widthPercent="30%h"
             app:layout_heightPercent="30%h"
-            android:scaleType="centerInside"
+            android:scaleType="fitCenter"
             android:layout_centerHorizontal="true"
             app:layout_marginTopPercent="20%h"/>
         <TextView
@@ -68,12 +69,13 @@
 
     </com.zhy.android.percent.support.PercentRelativeLayout>
 
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <com.zhy.android.percent.support.PercentLinearLayout
 
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_widthPercent="100%w"
         app:layout_heightPercent="50%h"
+        android:orientation="vertical"
         >
 
         <com.zhy.android.percent.support.PercentLinearLayout
@@ -81,17 +83,18 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_widthPercent="90%w"
-            app:layout_heightPercent="20%h"
+            app:layout_heightPercent="15%h"
+            android:layout_margin="10dp"
             android:layout_centerHorizontal="true"
 
             >
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_widthPercent="80%h"
-                app:layout_heightPercent="80%h"
+                app:layout_widthPercent="10%w"
+                app:layout_heightPercent="10%w"
                 app:layout_marginLeftPercent="15%w"
-                android:background="@drawable/street"
+                android:background="@drawable/user"
                 android:layout_gravity="center_vertical"
                 android:scaleType="fitXY"
                 />
@@ -105,16 +108,48 @@
                 android:text="@string/sliding_left_public_timeline"
                 android:textColor="@color/slidingmenu_left_menu_screen_neme"
                 android:gravity="center_vertical"
-                app:layout_textSizePercent="45%h"
+                app:layout_textSizePercent="30%h"
 
                 />
 
         </com.zhy.android.percent.support.PercentLinearLayout>
 
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:id="@+id/friend_timeline"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="90%w"
+            app:layout_heightPercent="15%h"
+            android:layout_margin="10dp"
+            android:layout_centerHorizontal="true"
 
+            >
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_widthPercent="10%w"
+                app:layout_heightPercent="10%w"
+                app:layout_marginLeftPercent="15%w"
+                android:background="@drawable/user"
+                android:layout_gravity="center_vertical"
+                android:scaleType="fitXY"
+                />
+            <TextView
 
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:layout_heightPercent="80%h"
+                app:layout_marginLeftPercent="10%w"
+                android:layout_gravity="center_vertical"
+                android:text="@string/sliding_left_friend_timeline"
+                android:textColor="@color/slidingmenu_left_menu_screen_neme"
+                android:gravity="center_vertical"
+                app:layout_textSizePercent="30%h"
 
+                />
+
+        </com.zhy.android.percent.support.PercentLinearLayout>
+    </com.zhy.android.percent.support.PercentLinearLayout>
 
 
 </com.zhy.android.percent.support.PercentLinearLayout>

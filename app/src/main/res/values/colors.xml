@@ -12,9 +12,9 @@
     <color name="slidingmenu_left_menu_pressde">#6e000000</color>
     <color name="slidingmenu_left_menu_normal">#00000000</color>
     <color name="slidingmenu_left_menu_blank">#b6d2efff</color>
-    <color name="slidingmenu_left_background">#eeededed</color>
+    <color name="slidingmenu_left_background">#e3e3e3</color>
     <color name="slidingmenu_left_menu_screen_neme">#c3000000</color>
-    <color name="slidingmenu_left_menu_description">#ef414141</color>
+    <color name="slidingmenu_left_menu_description">#838383</color>
     <color name="match_fragment_title">#ae3abdff</color>
     <color name="equip_list_color">#00ffffff</color>
 

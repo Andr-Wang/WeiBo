@@ -27,12 +27,14 @@ import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.UsersAPI;
 import com.sina.weibo.sdk.openapi.legacy.StatusesAPI;
 import com.sina.weibo.sdk.openapi.models.ErrorInfo;
+import com.sina.weibo.sdk.openapi.models.Privacy;
 import com.sina.weibo.sdk.openapi.models.Status;
 import com.sina.weibo.sdk.openapi.models.StatusList;
 import com.sina.weibo.sdk.openapi.models.User;
 import com.squareup.picasso.Picasso;
 
 import weibo.wangtao.weibo.Bean.AccessTokenKeeper;
+import weibo.wangtao.weibo.Fragment.FriendTimelineFragment;
 import weibo.wangtao.weibo.Fragment.LeftMenuFragment;
 import weibo.wangtao.weibo.Fragment.PublicTimelineFragment;
 import weibo.wangtao.weibo.Loader.UserInfoLoader;
@@ -40,24 +42,67 @@ import weibo.wangtao.weibo.R;
 import weibo.wangtao.weibo.Tools.CircleTransform;
 import weibo.wangtao.weibo.Tools.Constants;
 
-import static weibo.wangtao.weibo.Tools.Constants.APP_KEY;
 
 
-public class MainActivity extends SlidingFragmentActivity {
 
-    private Oauth2AccessToken mAccessToken;
+
+public class MainActivity extends SlidingFragmentActivity implements LeftMenuFragment.fragment_ChangeClickListener {
+
+
     private SlidingMenu sm;
-    private LoaderManager mLoaderManager;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-    private LeftMenuFragment mLeftMenu = new LeftMenuFragment();/** 左边菜单 */
-    private FragmentManager fm;
-    private PublicTimelineFragment publicTimelineFragment;
 
+    private FragmentManager fm;
+
+    private PublicTimelineFragment publicTimelineFragment=new PublicTimelineFragment();
+    private FriendTimelineFragment friendTimelineFragment=new FriendTimelineFragment();
+    private LeftMenuFragment leftMenuFragment;
+
+    private LeftMenuFragment mLeftMenu = new LeftMenuFragment();/** 左边菜单 */
+
+   // private PublicTimelineFragment publicTimelineFragment;
+    private TextView fragment_Title;
+    private ImageView goto_Left;
+
+
+    @Override
+    public void fragment_Change(String frgmnt)
+    {
+        if(publicTimelineFragment==null)
+        {
+            publicTimelineFragment=new PublicTimelineFragment();
+        }
+        if(friendTimelineFragment==null)
+        {
+            friendTimelineFragment=new FriendTimelineFragment();
+        }
+        FragmentTransaction transaction;
+        transaction=fm.beginTransaction();
+        if(frgmnt=="pubilc")
+        {
+
+            fragment_Title.setText("公共微博");
+
+
+            transaction.hide(friendTimelineFragment);
+            transaction.show(publicTimelineFragment);
+            transaction.commit();
+        }
+        if(frgmnt=="friend")
+        {
+            fragment_Title.setText("朋友微博");
+            transaction.hide(publicTimelineFragment);
+            transaction.show(friendTimelineFragment);
+            transaction.commit();
+        }
+        Log.i("fragment_Change",frgmnt);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        init_View();
 
         initSlidingMenu(savedInstanceState);
 
@@ -65,19 +110,28 @@ public class MainActivity extends SlidingFragmentActivity {
 
     }
 
+    private void init_View()
+    {
+        fragment_Title=(TextView)findViewById(R.id.fragment_title) ;
+        goto_Left=(ImageView)findViewById(R.id.goto_left);
+        goto_Left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sm.showMenu();
+            }
+        });
+    }
     private void setDefaultFragment()
     {
         fm = getFragmentManager();
-        publicTimelineFragment= new PublicTimelineFragment();
-        FragmentTransaction transaction = fm.beginTransaction();
+        FragmentTransaction transaction;
+        transaction=fm.beginTransaction();
         transaction.add(R.id.main_content,publicTimelineFragment);
-
+        transaction.add(R.id.main_content,friendTimelineFragment);
+        transaction.hide(friendTimelineFragment);
+        fragment_Title.setText("公共微博");
         transaction.show(publicTimelineFragment).commit();
     }
-
-
-
-
 
     private void initSlidingMenu(Bundle savedInstanceState)//侧滑菜单初始化
     {
@@ -96,15 +150,6 @@ public class MainActivity extends SlidingFragmentActivity {
         sm.setMode(SlidingMenu.LEFT); // 设置菜单只有左菜单
 
     }
-
-
-
-
-
-
-
-
-
 
 
 

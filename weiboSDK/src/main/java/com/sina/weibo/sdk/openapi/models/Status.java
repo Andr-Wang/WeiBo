@@ -114,9 +114,9 @@ public class Status {
         status.in_reply_to_user_id     = jsonObject.optString("in_reply_to_user_id");
         status.in_reply_to_screen_name = jsonObject.optString("in_reply_to_screen_name");
         
-        status.thumbnail_pic    = jsonObject.optString("thumbnail_pic");
-        status.bmiddle_pic      = jsonObject.optString("bmiddle_pic");
-        status.original_pic     = jsonObject.optString("original_pic");
+        status.thumbnail_pic    = jsonObject.optString("thumbnail_pic","");
+        status.bmiddle_pic      = jsonObject.optString("bmiddle_pic","");
+        status.original_pic     = jsonObject.optString("original_pic","");
         status.geo              = Geo.parse(jsonObject.optJSONObject("geo"));
         status.user             = User.parse(jsonObject.optJSONObject("user"));
         status.retweeted_status = Status.parse(jsonObject.optJSONObject("retweeted_status"));

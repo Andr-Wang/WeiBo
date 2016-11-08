@@ -1,5 +1,8 @@
 package weibo.wangtao.weibo.Tools;
 
+import android.app.FragmentTransaction;
+import android.app.FragmentManager;
+
 /**
  * Created by wangtao on 2016/10/31.
  */
