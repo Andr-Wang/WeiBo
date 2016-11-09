@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.sina.weibo.sdk.openapi.models.Status;
 import com.sina.weibo.sdk.openapi.models.User;
 import com.squareup.picasso.Picasso;
@@ -113,14 +114,17 @@ public class PublicTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v;
         if (viewType == VIEW_PROG) {
-            return new ProgressViewHolder(LayoutInflater.from(
-                    context).inflate(R.layout.progressbar_item, parent, false));
+            v=LayoutInflater.from(
+                    context).inflate(R.layout.progressbar_item, parent, false);
+            return new ProgressViewHolder(v);
         } else {
-            ItemHolder holder = new ItemHolder(LayoutInflater.from(
+            v=LayoutInflater.from(
                     context).inflate(R.layout.public_timeline_item, parent,
-                    false));
-            return holder;
+                    false);
+
+            return new ItemHolder(v);
         }
 
     }
@@ -139,6 +143,42 @@ public class PublicTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         private TextView userid, date, weibo_content,weibo_image_count;
         private ImageView user_image,weibo_image;
         private TextView reposts_btn, comments_btn, attitudes_btn;
+
+        public TextView getUserid() {
+            return userid;
+        }
+
+        public TextView getDate() {
+            return date;
+        }
+
+        public TextView getWeibo_content() {
+            return weibo_content;
+        }
+
+        public TextView getWeibo_image_count() {
+            return weibo_image_count;
+        }
+
+        public ImageView getUser_image() {
+            return user_image;
+        }
+
+        public ImageView getWeibo_image() {
+            return weibo_image;
+        }
+
+        public TextView getReposts_btn() {
+            return reposts_btn;
+        }
+
+        public TextView getComments_btn() {
+            return comments_btn;
+        }
+
+        public TextView getAttitudes_btn() {
+            return attitudes_btn;
+        }
 
         ItemHolder(View view) {
             super(view);
@@ -178,29 +218,33 @@ public class PublicTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             try
             {
                 user = statusList.get(position).user;
-                Picasso
+                Glide
                         .with(context)
                         .load(user.avatar_hd)
-                        .resize(60,60)
-                        .centerCrop()
-                        .config(Bitmap.Config.RGB_565)
-                        .skipMemoryCache()
-                        .into(viewHolder.user_image);
+
+                        .thumbnail(0.1f)
+                        .skipMemoryCache(true)
+                        .into(viewHolder.getUser_image());
 
 
                 if(statusList.get(position).bmiddle_pic!="")
                 {
-                    Picasso
+//                    Picasso
+//                            .with(context)
+//                            .load(statusList.get(position).bmiddle_pic)
+//                            .resize(600,600)
+//                            .centerCrop()
+//                            .skipMemoryCache()
+//                            .config(Bitmap.Config.RGB_565)
+//                            .into(viewHolder.weibo_image);
+                    Glide
                             .with(context)
-                            .load(statusList.get(position).bmiddle_pic)
-                            .resize(600,600)
-                            .centerCrop()
-                            .skipMemoryCache()
-                            .config(Bitmap.Config.RGB_565)
-                            .into(viewHolder.weibo_image);
+                            .load(user.avatar_hd)
 
-                    viewHolder.weibo_image.setMaxWidth(600);
-                    viewHolder.weibo_image.setMaxHeight(600);
+                            .thumbnail(0.1f)
+                            .skipMemoryCache(true)
+                            .into(viewHolder.getWeibo_image());
+
                     //viewHolder.weibo_image_count.setText(statusList.get(position).pic_urls.size());
                 }
 
