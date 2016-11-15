@@ -45,7 +45,9 @@ public class LeftMenuFragment extends Fragment {
 
     public interface fragment_ChangeClickListener
     {
-        void fragment_Change(String fm);
+        void friend_Timeline();
+        void public_Timeline();
+
     }
 
     @Override
@@ -89,7 +91,7 @@ public class LeftMenuFragment extends Fragment {
                 Picasso
                         .with(getActivity())
                         .load(user.avatar_large)
-                        .transform(new CircleTransform())
+                        .transform(new CircleTransform(getActivity()))
                         .fit()
                         .centerCrop()
                         .config(Bitmap.Config.ALPHA_8)
@@ -129,7 +131,7 @@ public class LeftMenuFragment extends Fragment {
                     v.setBackgroundResource(R.drawable.sliding_left_public_timeline_normal);
                     if(getActivity() instanceof fragment_ChangeClickListener)
                     {
-                        ((fragment_ChangeClickListener)getActivity()).fragment_Change("public");
+                        ((fragment_ChangeClickListener)getActivity()).public_Timeline();
 
                     }
                 }
@@ -146,7 +148,7 @@ public class LeftMenuFragment extends Fragment {
                     v.setBackgroundResource(R.drawable.sliding_left_public_timeline_normal);
                     if(getActivity() instanceof fragment_ChangeClickListener)
                     {
-                        ((fragment_ChangeClickListener)getActivity()).fragment_Change("friend");
+                        ((fragment_ChangeClickListener)getActivity()).friend_Timeline();
                     }
                 }
                 return true;

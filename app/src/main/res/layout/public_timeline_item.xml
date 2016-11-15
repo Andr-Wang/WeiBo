@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     xmlns:card_view="http://schemas.android.com/tools"
     android:layout_margin="2dp"
-    card_view:cardCornerRadius="5dp"
+    card_view:cardCornerRadius="1dp"
     card_view:cardElevation="2dp"
     card_view:cardUseCompatPadding="true">
 
@@ -46,7 +46,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:gravity="center_horizontal"
+                    android:gravity="left"
 
                     android:textColor="@color/weibo_userid"
                     android:text=""
@@ -57,14 +57,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:gravity="center_horizontal"
+                    android:gravity="left"
                     android:textColor="@color/weibo_date"
                     />
             </LinearLayout>
 
 
         </LinearLayout>
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/slidingmenu_left_menu_blank"
+            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -78,6 +82,7 @@
              <!--/>-->
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/weibo_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -88,12 +93,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/weibo_userid"/>
-            <ImageView
-                android:id="@+id/weibo_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:scaleType="fitCenter"
-                />
+
+            <GridView
+                android:id="@+id/weiboimage_gv"
+                android:numColumns="3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/time_line_content_color" />
+
             <TextView
                 android:id="@+id/weibo_image_count"
                 android:layout_width="wrap_content"
@@ -101,53 +108,84 @@
                 android:textSize="25sp"/>
 
         </LinearLayout>
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/slidingmenu_left_menu_blank"
+            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="5dp">
-            <LinearLayout
+            android:padding="2dp">
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="30dp"
                 android:layout_weight="1"
                 >
+
+                <TextView
+                    android:id="@+id/public_timeline_repost_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_centerInParent="true"
+                    android:text="@string/public_timeline_item_repost"/>
 
                 <TextView
                     android:id="@+id/reposts_txv"
+                    android:layout_toEndOf="@id/public_timeline_repost_text"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:layout_gravity="center"
                     />
-            </LinearLayout>
-            <LinearLayout
+            </RelativeLayout>
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="30dp"
                 android:layout_weight="1"
+
                 >
+                <TextView
+                    android:id="@+id/public_timeline_comment_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_centerInParent="true"
+                    android:text="@string/public_timeline_item_comments"/>
                 <TextView
                     android:id="@+id/comments_txv"
+                    android:layout_toEndOf="@id/public_timeline_comment_text"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:layout_gravity="center"
                     />
-            </LinearLayout>
-            <LinearLayout
+            </RelativeLayout>
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="30dp"
                 android:layout_weight="1"
-                >
 
+                >
+                <TextView
+                    android:id="@+id/public_timeline_atti_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_centerInParent="true"
+                    android:text="@string/public_timeline_item_attitudes"/>
                 <TextView
                     android:id="@+id/attitudes_txv"
+                    android:layout_toEndOf="@id/public_timeline_atti_text"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:layout_gravity="center"
                     />
-            </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
 
     </LinearLayout>

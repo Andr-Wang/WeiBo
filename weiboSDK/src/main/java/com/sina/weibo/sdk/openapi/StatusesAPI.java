@@ -113,8 +113,10 @@ public class StatusesAPI extends AbsOpenAPI {
         WeiboParameters params = 
                 buildTimeLineParamsBase(since_id, max_id, count, page, base_app, trim_user, featureType);
         requestAsync(sAPIList.get(READ_API_FRIENDS_TIMELINE), params, HTTPMETHOD_GET, listener);
-    }    
-    
+    }
+
+
+
     /**
      * 获取最新的提到登录用户的微博列表，即@我的微博。
      * 

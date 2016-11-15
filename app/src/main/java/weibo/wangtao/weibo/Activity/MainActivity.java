@@ -51,8 +51,8 @@ public class MainActivity extends SlidingFragmentActivity implements LeftMenuFra
 
     private SlidingMenu sm;
 
-    private FragmentManager fm;
 
+    private FragmentManager fm;
     private PublicTimelineFragment publicTimelineFragment=new PublicTimelineFragment();
     private FriendTimelineFragment friendTimelineFragment=new FriendTimelineFragment();
     private LeftMenuFragment leftMenuFragment;
@@ -65,8 +65,7 @@ public class MainActivity extends SlidingFragmentActivity implements LeftMenuFra
 
 
     @Override
-    public void fragment_Change(String frgmnt)
-    {
+    public void friend_Timeline() {
         if(publicTimelineFragment==null)
         {
             publicTimelineFragment=new PublicTimelineFragment();
@@ -77,25 +76,42 @@ public class MainActivity extends SlidingFragmentActivity implements LeftMenuFra
         }
         FragmentTransaction transaction;
         transaction=fm.beginTransaction();
-        if(frgmnt=="pubilc")
-        {
-
-            fragment_Title.setText("公共微博");
-
-
-            transaction.hide(friendTimelineFragment);
-            transaction.show(publicTimelineFragment);
-            transaction.commit();
+        getFragmentManager();
+        fragment_Title.setText("朋友微博");
+        if (!friendTimelineFragment.isAdded()) {    // 先判断是否被add过
+            transaction.hide(publicTimelineFragment).add(R.id.main_content, friendTimelineFragment).commit(); // 隐藏当前的fragment，add下一个到Activity中
+        } else {
+            transaction.hide(publicTimelineFragment).show(friendTimelineFragment).commit(); // 隐藏当前的fragment，显示下一个
         }
-        if(frgmnt=="friend")
-        {
-            fragment_Title.setText("朋友微博");
-            transaction.hide(publicTimelineFragment);
-            transaction.show(friendTimelineFragment);
-            transaction.commit();
-        }
-        Log.i("fragment_Change",frgmnt);
+        Log.i("fragment_Change","friend_Timeline");
     }
+
+    @Override
+    public void public_Timeline() {
+        if(publicTimelineFragment==null)
+        {
+            publicTimelineFragment=new PublicTimelineFragment();
+        }
+        if(friendTimelineFragment==null)
+        {
+            friendTimelineFragment=new FriendTimelineFragment();
+        }
+        FragmentTransaction transaction;
+        transaction=fm.beginTransaction();
+        getFragmentManager();
+        fragment_Title.setText("公共微博");
+
+        if (!publicTimelineFragment.isAdded()) {    // 先判断是否被add过
+            transaction.hide(friendTimelineFragment).add(R.id.main_content, publicTimelineFragment).commit(); // 隐藏当前的fragment，add下一个到Activity中
+        } else {
+            transaction.hide(friendTimelineFragment).show(publicTimelineFragment).commit(); // 隐藏当前的fragment，显示下一个
+        }
+        Log.i("fragment_Change","public_Timeline");
+    }
+
+
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -123,7 +139,7 @@ public class MainActivity extends SlidingFragmentActivity implements LeftMenuFra
     }
     private void setDefaultFragment()
     {
-        fm = getFragmentManager();
+        fm= getFragmentManager();
         FragmentTransaction transaction;
         transaction=fm.beginTransaction();
         transaction.add(R.id.main_content,publicTimelineFragment);
@@ -158,4 +174,7 @@ public class MainActivity extends SlidingFragmentActivity implements LeftMenuFra
     {
 
     }
+
+
+
 }

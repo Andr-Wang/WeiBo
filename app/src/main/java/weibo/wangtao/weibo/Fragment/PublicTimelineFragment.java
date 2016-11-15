@@ -25,10 +25,15 @@ import com.sina.weibo.sdk.openapi.models.Status;
 import com.sina.weibo.sdk.openapi.models.StatusList;
 import com.sina.weibo.sdk.openapi.models.User;
 
+import java.util.HashMap;
+
 import weibo.wangtao.weibo.Activity.MainActivity;
+import weibo.wangtao.weibo.Activity.UserIndex;
+import weibo.wangtao.weibo.Activity.WeiboDetail;
 import weibo.wangtao.weibo.Adapter.OnLoadMoreListener;
 import weibo.wangtao.weibo.Adapter.PublicTimelineAdapter;
 import weibo.wangtao.weibo.Bean.AccessTokenKeeper;
+import weibo.wangtao.weibo.Bean.WeiBoImage;
 import weibo.wangtao.weibo.R;
 import weibo.wangtao.weibo.Tools.RecycleViewDivider;
 
@@ -69,6 +74,24 @@ public class  PublicTimelineFragment extends Fragment implements SwipeRefreshLay
         };
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter=new PublicTimelineAdapter(getActivity(),mRecyclerView);
+        mAdapter.setOnItemClickListener(new PublicTimelineAdapter.OnRecyclerViewItemClickListener(){
+            @Override
+            public void onWeiBoClick(View view , String id){
+               // Log.i("onItemClick------");
+                Intent intent=new Intent();
+                intent.setClass(getActivity(), WeiboDetail.class);
+                intent.putExtra("id",id );
+                startActivity(intent);
+            }
+
+            @Override
+            public void onUserClick(View view, String id) {
+                Intent intent=new Intent();
+                intent.setClass(getActivity(), UserIndex.class);
+                intent.putExtra("id",id );
+                startActivity(intent);
+            }
+        });
         mAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
@@ -119,6 +142,7 @@ public class  PublicTimelineFragment extends Fragment implements SwipeRefreshLay
 
     private void freshPublic_Timeline()
     {
+        Log.e("freshPublic_Timeline","freshPublic_Timeline");
         mAccessToken = AccessTokenKeeper.readAccessToken(getActivity());// 从 SharedPreferences 中读取上次已保存好 AccessToken 等信息
         StatusesAPI statusesAPI=new StatusesAPI(getActivity(),APP_KEY,mAccessToken);
         page_count=1;

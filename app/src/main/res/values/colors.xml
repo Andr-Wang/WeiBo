@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="user_head_stroke">#a0a0a0</color>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
@@ -27,5 +28,5 @@
     <color name="swipe_color_4">#ff9696ff</color>
     <color name="weibo_userid">#000000</color>
     <color name="weibo_date">#898989</color>
-
+    <color name="time_line_content_color">#a5efefef</color>
 </resources>

@@ -10,6 +10,9 @@ import android.preference.DialogPreference;
 import android.provider.Settings;
 import android.widget.TextView;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import android.util.Log;
 /**
  * Created by wangtao on 2016/10/27.
  */
@@ -53,6 +56,45 @@ public class Tools {
             }
         }
 
+    }
+    public static String time_Change(String time)//Sun Nov 13 14:56:38 +0800 2016
+    {
+        String[] str = "Sun Nov 13 14:56:38 +0800 2016".split(" ");
+       // String year=str[5];
+        String month=month_Change(str[1]);
+        String day=str[2];
+
+        return day+"-"+month;
+    }
+    private static String month_Change(String month)
+    {
+        switch (month)
+        {
+            case "Jan":
+                return "1";
+            case "Feb":
+                return "2";
+            case "Apr":
+                return "3";
+            case "Mat":
+                return "4";
+            case "May":
+                return "5";
+            case "Jun":
+                return "6";
+            case "Jul":
+                return "7";
+            case "Agu":
+                return "8";
+            case "Sep":
+                return "9";
+            case "Nov":
+                return "11";
+            case "Dec":
+                return "12";
+            default:
+                return null;
+        }
     }
 
 }

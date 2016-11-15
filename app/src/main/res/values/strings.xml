@@ -7,8 +7,17 @@
     <string name="weibosdk_demo_toast_obtain_code_failed">获取 Code 失败</string>
     <string name="sliding_left_public_timeline">公共微博</string>
     <string name="sliding_left_friend_timeline">朋友微博</string>
+    <string name="weibo_detail_toolbar_text">微博内容</string>
 
+
+    <string name="public_timeline_item_repost">转发：</string>
+    <string name="public_timeline_item_comments">评论：</string>
+    <string name="public_timeline_item_attitudes">赞：</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="user_index_screen_name">昵称</string>
+    <string name="user_index_city">位置</string>
+    <string name="user_index_followers_count">粉丝</string>
+    <string name="user_index_sex">性别</string>
 </resources>

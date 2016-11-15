@@ -12,11 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.disklrucache.DiskLruCache;
 import com.sina.weibo.sdk.openapi.models.Status;
 import com.sina.weibo.sdk.openapi.models.User;
 import com.squareup.picasso.Picasso;
@@ -24,14 +27,22 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import weibo.wangtao.weibo.Activity.MainActivity;
+import weibo.wangtao.weibo.Activity.UserIndex;
 import weibo.wangtao.weibo.Fragment.PublicTimelineFragment;
 import weibo.wangtao.weibo.R;
+import weibo.wangtao.weibo.Tools.CircleTransform;
+import weibo.wangtao.weibo.Tools.GlideCircleTransform;
+
 import android.util.Log;
+import android.view.ViewGroup.LayoutParams;
+
+import static weibo.wangtao.weibo.Tools.Tools.time_Change;
+
 /**
  * Created by wangtao on 2016/11/3.
  */
 
-public class PublicTimelineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class PublicTimelineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
     private final Context context;
     private ArrayList<Status> statusList;
     private User user = new User();
@@ -39,9 +50,19 @@ public class PublicTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private OnLoadMoreListener onLoadMoreListener;
     private boolean loading=false;
-    private int lastVisibleItem, totalItemCount;
+    private int lastVisibleItem, totalItemCount,firstVisibleItem;
+    private OnRecyclerViewItemClickListener mOnItemClickListener = null;
 
+    private GridViewAdapter adapter;
 
+    public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
+        this.mOnItemClickListener = listener;
+    }
+
+    public  interface OnRecyclerViewItemClickListener {
+        void onWeiBoClick(View view , String id);
+        void onUserClick(View view , String id);
+    }
 
     public PublicTimelineAdapter(Context context, RecyclerView recyclerView){
         super();
@@ -55,6 +76,7 @@ public class PublicTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     super.onScrolled(recyclerView, dx, dy);
                     totalItemCount = linearLayoutManager.getItemCount();
                     lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+                    firstVisibleItem=linearLayoutManager.findFirstVisibleItemPosition();
                     if (!loading && totalItemCount <= (lastVisibleItem + 1)) {
                         // end has been reached
                         // do something
@@ -62,6 +84,8 @@ public class PublicTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                             onLoadMoreListener.onLoadMore();
                         }
                     }
+
+
                 }
             });
 
@@ -115,6 +139,7 @@ public class PublicTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v;
+
         if (viewType == VIEW_PROG) {
             v=LayoutInflater.from(
                     context).inflate(R.layout.progressbar_item, parent, false);
@@ -124,8 +149,10 @@ public class PublicTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     context).inflate(R.layout.public_timeline_item, parent,
                     false);
 
+
             return new ItemHolder(v);
         }
+
 
     }
 
@@ -139,46 +166,13 @@ public class PublicTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     }
 
-    public static class ItemHolder extends RecyclerView.ViewHolder {
+    public  class ItemHolder extends RecyclerView.ViewHolder {
         private TextView userid, date, weibo_content,weibo_image_count;
-        private ImageView user_image,weibo_image;
+        private ImageView user_image;
         private TextView reposts_btn, comments_btn, attitudes_btn;
+        private GridView gridView;
+        private View weibo_detail;
 
-        public TextView getUserid() {
-            return userid;
-        }
-
-        public TextView getDate() {
-            return date;
-        }
-
-        public TextView getWeibo_content() {
-            return weibo_content;
-        }
-
-        public TextView getWeibo_image_count() {
-            return weibo_image_count;
-        }
-
-        public ImageView getUser_image() {
-            return user_image;
-        }
-
-        public ImageView getWeibo_image() {
-            return weibo_image;
-        }
-
-        public TextView getReposts_btn() {
-            return reposts_btn;
-        }
-
-        public TextView getComments_btn() {
-            return comments_btn;
-        }
-
-        public TextView getAttitudes_btn() {
-            return attitudes_btn;
-        }
 
         ItemHolder(View view) {
             super(view);
@@ -187,11 +181,14 @@ public class PublicTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
            // comment_text = (TextView) view.findViewById(R.id.comment_text);
             weibo_content = (TextView) view.findViewById(R.id.weibo_content);
             user_image = (ImageView) view.findViewById(R.id.user_image);
-            weibo_image=(ImageView)view.findViewById(R.id.weibo_image);
+
             reposts_btn = (TextView) view.findViewById(R.id.reposts_txv);
             comments_btn = (TextView) view.findViewById(R.id.comments_txv);
             attitudes_btn = (TextView) view.findViewById(R.id.attitudes_txv);
             weibo_image_count=(TextView)view.findViewById(R.id.weibo_image_count);
+            gridView=(GridView)view.findViewById(R.id.weiboimage_gv);
+            weibo_detail=view.findViewById(R.id.weibo_detail);
+
         }
     }
 
@@ -207,6 +204,7 @@ public class PublicTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
 
+
     public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
         this.onLoadMoreListener = onLoadMoreListener;
     }
@@ -214,47 +212,65 @@ public class PublicTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ItemHolder && !loading) {
-            ItemHolder viewHolder = (ItemHolder) holder;
+            final ItemHolder viewHolder = (ItemHolder) holder;
+
             try
             {
                 user = statusList.get(position).user;
                 Glide
                         .with(context)
                         .load(user.avatar_hd)
-
-                        .thumbnail(0.1f)
+                        .error(R.drawable.street)
+                        .transform(new GlideCircleTransform(context))
                         .skipMemoryCache(true)
-                        .into(viewHolder.getUser_image());
+                        .into(viewHolder.user_image);
 
 
-                if(statusList.get(position).bmiddle_pic!="")
+                if(statusList.get(position).pic_urls!=null)
                 {
-//                    Picasso
-//                            .with(context)
-//                            .load(statusList.get(position).bmiddle_pic)
-//                            .resize(600,600)
-//                            .centerCrop()
-//                            .skipMemoryCache()
-//                            .config(Bitmap.Config.RGB_565)
-//                            .into(viewHolder.weibo_image);
-                    Glide
-                            .with(context)
-                            .load(user.avatar_hd)
+                    if(!statusList.get(position).pic_urls.isEmpty())
+                    {
 
-                            .thumbnail(0.1f)
-                            .skipMemoryCache(true)
-                            .into(viewHolder.getWeibo_image());
+                        adapter=new GridViewAdapter(context);
+                        viewHolder.gridView.setTag(statusList.get(position).pic_urls);
+                        adapter.set_List(viewHolder.gridView.getTag());
+                        viewHolder.gridView.setAdapter(adapter);
 
-                    //viewHolder.weibo_image_count.setText(statusList.get(position).pic_urls.size());
+                        //viewHolder.weibo_image_count.setText(statusList.get(position).pic_urls.size());
+                    }
+
                 }
 
                 viewHolder.weibo_content.setText(statusList.get(position).text);
                 viewHolder.userid.setText(user.screen_name);
-                viewHolder.date.setText(statusList.get(position).created_at);
+                viewHolder.date.setText(time_Change(statusList.get(position).created_at));
 
                 viewHolder.reposts_btn.setText(String.valueOf(statusList.get(position).reposts_count));
                 viewHolder.comments_btn.setText(String.valueOf(statusList.get(position).comments_count));
                 viewHolder.attitudes_btn.setText(String.valueOf(statusList.get(position).attitudes_count));
+
+                viewHolder.itemView.setTag(String.valueOf(position));
+                viewHolder.weibo_detail.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mOnItemClickListener != null) {
+                            //使用getTag方法获取数据
+                            mOnItemClickListener.onWeiBoClick(v,statusList.get(viewHolder.getAdapterPosition()).id);
+                        }
+                    }
+                });
+                viewHolder.user_image.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mOnItemClickListener != null) {
+                            //使用getTag方法获取数据
+
+                            mOnItemClickListener.onUserClick(v,statusList.get(viewHolder.getAdapterPosition()).user.id);
+                        }
+                    }
+                });
+
+
             } catch (NullPointerException e)
             {
 
@@ -265,6 +281,8 @@ public class PublicTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
 
     }
+
+
 
     @Override
     public int getItemCount() {

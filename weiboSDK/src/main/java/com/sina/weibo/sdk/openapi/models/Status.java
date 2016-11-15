@@ -16,6 +16,10 @@
 
 package com.sina.weibo.sdk.openapi.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -28,7 +32,7 @@ import org.json.JSONObject;
  * @author SINA
  * @since 2013-11-22
  */
-public class Status {
+public class Status  {
     
     /** 微博创建时间 */
     public String created_at;
@@ -79,7 +83,7 @@ public class Status {
      */
     public Visible visible;
     /** 微博配图地址。多图时返回多图链接。无配图返回"[]" */
-    public ArrayList<String> pic_urls;
+    public ArrayList<String> pic_urls=null;
     /** 微博流内的推广微博ID */
     //public Ad ad;
     
@@ -143,4 +147,9 @@ public class Status {
         
         return status;
     }
+
+
+
+
+
 }

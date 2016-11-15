@@ -1,6 +1,7 @@
 package weibo.wangtao.weibo.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,6 +22,8 @@ import com.sina.weibo.sdk.openapi.legacy.StatusesAPI;
 import com.sina.weibo.sdk.openapi.models.ErrorInfo;
 import com.sina.weibo.sdk.openapi.models.StatusList;
 
+import weibo.wangtao.weibo.Activity.UserIndex;
+import weibo.wangtao.weibo.Activity.WeiboDetail;
 import weibo.wangtao.weibo.Adapter.OnLoadMoreListener;
 import weibo.wangtao.weibo.Adapter.PublicTimelineAdapter;
 import weibo.wangtao.weibo.Bean.AccessTokenKeeper;
@@ -59,12 +62,39 @@ public class FriendTimelineFragment extends Fragment implements SwipeRefreshLayo
         };
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter=new PublicTimelineAdapter(getActivity(),mRecyclerView);
+        mAdapter.setOnItemClickListener(new PublicTimelineAdapter.OnRecyclerViewItemClickListener(){
+            @Override
+            public void onWeiBoClick(View view , String id){
+                // Log.i("onItemClick------");
+                Intent intent=new Intent();
+                intent.setClass(getActivity(), WeiboDetail.class);
+                intent.putExtra("id",id );
+                startActivity(intent);
+            }
+
+            @Override
+            public void onUserClick(View view, String id) {
+                Intent intent=new Intent();
+                intent.setClass(getActivity(), UserIndex.class);
+                intent.putExtra("id",id );
+                startActivity(intent);
+            }
+        });
         mAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
                 addPublic_Timeline();
             }
         });
+        mAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                addPublic_Timeline();
+            }
+        });
+
+
+
         mRecyclerView.setAdapter(mAdapter);
 
 
@@ -109,6 +139,7 @@ public class FriendTimelineFragment extends Fragment implements SwipeRefreshLayo
 
     private void freshPublic_Timeline()
     {
+        Log.e("freshPublic_Timeline","freshPublic_Timeline");
         mAccessToken = AccessTokenKeeper.readAccessToken(getActivity());// 从 SharedPreferences 中读取上次已保存好 AccessToken 等信息
         StatusesAPI statusesAPI=new StatusesAPI(getActivity(),APP_KEY,mAccessToken);
         page_count=1;

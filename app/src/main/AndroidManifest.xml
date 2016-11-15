@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!-- SDCard读写权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
 
     <application
         android:allowBackup="true"
@@ -36,11 +36,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.MainActivity"  android:theme="@style/NoActionBarTheme">
+        <activity
+            android:name=".Activity.MainActivity"
+            android:theme="@style/NoActionBarTheme">
 
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.VIEW"/>-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.VIEW"/> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity android:name=".Activity.UserIndex"
+            android:theme="@style/NoActionBarTheme"/>
+        <activity android:name=".Activity.WeiboDetail"
+            android:theme="@style/NoActionBarTheme">
+
         </activity>
     </application>
 
