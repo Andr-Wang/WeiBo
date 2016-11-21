@@ -7,21 +7,17 @@
 
     tools:context="weibo.wangtao.weibo.Activity.MainActivity">
 
+
+
     <RelativeLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:layout_height="45dp"
 
-        android:background="@color/primary_blue"
+        android:background="#ffffff"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true">
-        <ImageView
-            android:id="@+id/goto_left"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@drawable/street"
-            android:layout_alignParentLeft="true"/>
+
         <TextView
             android:id="@+id/fragment_title"
             android:layout_width="wrap_content"
@@ -31,13 +27,33 @@
             android:layout_gravity="center_horizontal"
             android:layout_centerInParent="true"
             />
+        <weibo.wangtao.weibo.Widget.FilterImageView
+            android:id="@+id/publish"
+            android:layout_width="45dip"
+            android:layout_height="45dip"
+            android:src="@drawable/btn_posts_camera_l"
+            android:paddingRight="15dp"
+            android:scaleType="fitCenter"
+            android:layout_alignParentRight="true"/>
+
+        <weibo.wangtao.weibo.Widget.FilterImageView
+            android:id="@+id/goto_left"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/back"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:scaleType="fitCenter"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
 
     </RelativeLayout>
     <FrameLayout
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar">
-
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/toolbar">
     </FrameLayout>
 </RelativeLayout>

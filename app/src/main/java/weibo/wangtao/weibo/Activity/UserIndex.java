@@ -25,7 +25,7 @@ import weibo.wangtao.weibo.Tools.CircleTransform;
 
 import static weibo.wangtao.weibo.Tools.Constants.APP_KEY;
 import android.util.Log;
-public class UserIndex extends AppCompatActivity {
+public class UserIndex extends BaseActivity {
     private User user;
     private Oauth2AccessToken mAccessToken;
     private ImageView user_index_cover,user_index_userphoto;

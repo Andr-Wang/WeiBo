@@ -12,4 +12,10 @@
 
     </style>
 
+    <style name="dividing_line_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dividing_0.5</item>
+        <item name="android:background">@color/gray_dividing</item>
+    </style>
+
 </resources>

@@ -1,8 +1,9 @@
 package weibo.wangtao.weibo.Activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -22,7 +23,7 @@ import static weibo.wangtao.weibo.Tools.Constants.APP_KEY;
 import static weibo.wangtao.weibo.Tools.Constants.REDIRECT_URL;
 import static weibo.wangtao.weibo.Tools.Constants.SCOPE;
 import android.util.Log;
-public class Login_Activity extends AppCompatActivity  implements WeiboAuthListener {
+public class Login_Activity extends AppCompatActivity implements WeiboAuthListener {
     private AuthInfo mAuthInfo;
 
     /**

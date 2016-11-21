@@ -22,7 +22,7 @@ import weibo.wangtao.weibo.R;
 
 import static weibo.wangtao.weibo.Tools.Constants.APP_KEY;
 
-public class WeiboDetail extends AppCompatActivity {
+public class WeiboDetail extends BaseActivity {
 
     private Status status;
     private Oauth2AccessToken mAccessToken;
@@ -40,7 +40,7 @@ public class WeiboDetail extends AppCompatActivity {
     private void init_Weibo(String id) {
         mAccessToken = AccessTokenKeeper.readAccessToken(this);// 从 SharedPreferences 中读取上次已保存好 AccessToken 等信息
         StatusesAPI statusesAPI = new StatusesAPI(this, APP_KEY, mAccessToken);
-        String d="4041022613375622";
+
         statusesAPI.show(Long.valueOf(id), weibo_show_Listener);
     }
 

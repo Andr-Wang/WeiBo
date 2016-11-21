@@ -4,6 +4,7 @@ package weibo.wangtao.weibo.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 
@@ -61,7 +62,7 @@ public class MainActivity extends SlidingFragmentActivity implements LeftMenuFra
 
    // private PublicTimelineFragment publicTimelineFragment;
     private TextView fragment_Title;
-    private ImageView goto_Left;
+    private ImageView goto_Left,publish;
 
 
     @Override
@@ -130,12 +131,23 @@ public class MainActivity extends SlidingFragmentActivity implements LeftMenuFra
     {
         fragment_Title=(TextView)findViewById(R.id.fragment_title) ;
         goto_Left=(ImageView)findViewById(R.id.goto_left);
+        publish=(ImageView)findViewById(R.id.publish);
         goto_Left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sm.showMenu();
             }
         });
+        publish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent();
+                intent.setClass(MainActivity.this,Weibo_Publish.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.abc_fade_in,R.anim.abc_fade_out);
+            }
+        });
+
     }
     private void setDefaultFragment()
     {

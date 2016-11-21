@@ -20,4 +20,7 @@
     <string name="user_index_city">位置</string>
     <string name="user_index_followers_count">粉丝</string>
     <string name="user_index_sex">性别</string>
+    <string name="publish_toolbar_cancel_text">取消</string>
+    <string name="publish_toolbar_title_text">发布微博</string>
+    <string name="publish_toolbar_publish_text">发布</string>
 </resources>

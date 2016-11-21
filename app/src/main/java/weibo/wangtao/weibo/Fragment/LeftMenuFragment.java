@@ -1,5 +1,6 @@
 package weibo.wangtao.weibo.Fragment;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,9 +25,11 @@ import com.sina.weibo.sdk.openapi.models.User;
 import com.squareup.picasso.Picasso;
 
 import weibo.wangtao.weibo.Activity.MainActivity;
+import weibo.wangtao.weibo.Activity.UserIndex;
 import weibo.wangtao.weibo.Bean.AccessTokenKeeper;
 import weibo.wangtao.weibo.R;
 import weibo.wangtao.weibo.Tools.CircleTransform;
+import weibo.wangtao.weibo.Widget.FilterImageView;
 
 import static weibo.wangtao.weibo.Tools.Constants.APP_KEY;
 
@@ -69,6 +72,15 @@ public class LeftMenuFragment extends Fragment {
         screen_name = (TextView) view.findViewById(R.id.screen_name);
         description = (TextView) view.findViewById(R.id.description);
         userphoto = (ImageView) view.findViewById(R.id.userphoto);
+        userphoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent();
+                intent.setClass(getActivity(), UserIndex.class);
+                intent.putExtra("id",mAccessToken.getUid());
+                startActivity(intent);
+            }
+        });
         cover = (ImageView) view.findViewById(R.id.cover);
         public_timeline=view.findViewById(R.id.public_timeline);
         friend_timeline=view.findViewById(R.id.friend_timeline);

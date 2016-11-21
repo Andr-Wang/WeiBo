@@ -6,7 +6,7 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="primary_blue">#ff01a1eb</color>
-    <color name="white">#e2e2e2</color>
+    <color name="white">#ffffff</color>
     <color name="login_background">#c1dadada</color>
     <color name="login_textcolor">#b63e3e3e</color>
     <color name="MainActivity_Sliding_background">#5e0800ff</color>
@@ -29,4 +29,22 @@
     <color name="weibo_userid">#000000</color>
     <color name="weibo_date">#898989</color>
     <color name="time_line_content_color">#a5efefef</color>
+
+    <color name="divider_color">#b9b9b9</color>
+    <color name="publish_grid_color">#414141</color>
+
+    <color name="mine_dividing_line_color">#cacaca</color>
+    <color name="gray_3">#333333</color>
+    <color name="gray_6">#666666</color>
+    <color name="gray_9">#999999</color>
+    <color name="title_text_color">#ff363636</color>
+
+    <color name="container_bg">#ffeeeeee</color>
+    <color name="primary_title_text_color">#ffeeeeee</color>
+    <color name="common_title_bg">#aa111213</color>
+    <color name="album_item_bg">#fffcfcfd</color>
+    <color name="gray_dividing">#ffcccccc</color>
+
+    <color name="mine_bg">#ffffff</color>
+    <color name="mine_bg_selected">#d9d9d9</color>
 </resources>
